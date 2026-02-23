@@ -8,6 +8,7 @@ class Dawbank: # Contiene función main
     titular: str = ""
 
     def imprimir_menu(self) -> None:
+        print("." * 25)
         print("1- Mostrar datos de la cuenta.")
         print("2- Mostrar IBAN.")
         print("3- Mostrar titular.")
@@ -25,8 +26,8 @@ class Dawbank: # Contiene función main
 
     def run(self):
         opcion: int = -1
-        saldo: int = 0
-        cant: int = 0
+        saldo: float = 0.0
+        cant: float = 0.0
 
         self.iban = input("Introducir IBAN bancario: ")
         self.titular = input("Introducir titular de la cuenta: ")
@@ -39,23 +40,23 @@ class Dawbank: # Contiene función main
                 print(self.cuenta)
                 continue
             if opcion == Cons.OPCION_IBAN:
-                print(self.cuenta.get_iban())
+                print(f"IBAN: {self.cuenta.get_iban()}")
                 continue
             if opcion == Cons.OPCION_TITULAR:
-                print(self.cuenta.get_titular())
+                print(f"Titular de la cuenta: {self.cuenta.get_titular()}")
                 continue
             if opcion == Cons.OPCION_SALDO:
-                print(self.cuenta.get_saldo())
+                print(f"Saldo disponible: {self.cuenta.get_saldo()}")
                 continue
             if opcion == Cons.OPCION_INGRE:
-                cant = int(input("Cantidad a introducir: "))
+                cant = float(input("Cantidad a introducir: "))
                 saldo = self.cuenta.get_saldo() + cant
                 self.cuenta.set_saldo(saldo)
                 self.cuenta.set_movimientos(f"INGR. +{cant}")
                 print(f"Se introdujeron {cant}€ exitosamente. Nuevo balance: {self.cuenta.get_saldo()}")
                 continue
             if opcion == Cons.OPCION_RETI:
-                cant = int(input("Cantidad a retirar: "))
+                cant = float(input("Cantidad a retirar: "))
                 saldo = self.cuenta.get_saldo() - cant
                 self.cuenta.set_saldo(saldo)
                 self.cuenta.set_movimientos(f"RETIR. -{cant}")
