@@ -13,5 +13,6 @@ class Cons:
 
     SALDO_MIN: int = -50
     MOVIMIENTO_MAX: int = 3000
+    MAX_MOVS: int = 100
 
 
