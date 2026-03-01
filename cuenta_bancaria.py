@@ -8,13 +8,13 @@ class CuentaBancaria:
     movimientos: list[str] = []
 
     def __init__(self, iban: str, titular: str):
-        self.IBAN = comprobar_iban(iban)
+        self.IBAN = self.comprobar_iban(iban)
         self.TITULAR = titular
         self.saldo = Cons.SALDO_DEF
         self.movimientos = []
 
     def comprobar_iban(self, valor):
-        pass
+        return valor
 
     def __str__(self):
         return f"IBAN: {self.IBAN} - Titular: {self.TITULAR} - Saldo: {self.saldo}"
