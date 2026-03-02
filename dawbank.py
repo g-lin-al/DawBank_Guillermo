@@ -8,7 +8,7 @@ class Dawbank: # Contiene función main
     titular: str = ""
 
     def imprimir_menu(self) -> None: # Cambiar los números de las opciones a una constante
-        print("." * 25)
+        print("." * Cons.ESTRELLAS_NUM)
         print(f"{Cons.OPCION_DATOS}- Mostrar datos de la cuenta.")
         print(f"{Cons.OPCION_IBAN}- Mostrar IBAN.")
         print(f"{Cons.OPCION_TITULAR}- Mostrar titular.")
@@ -17,7 +17,7 @@ class Dawbank: # Contiene función main
         print(f"{Cons.OPCION_RETI}- Retirada.")
         print(f"{Cons.OPCION_MOVI}- Mostrar movimientos.")
         print(f"{Cons.OPCION_SALIR}- SALIR.")
-        print("." * 25)
+        print("." * Cons.ESTRELLAS_NUM)
 
     def pedir_opcion(self) -> int:
         opcion: int = -1

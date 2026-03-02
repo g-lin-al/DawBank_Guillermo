@@ -15,4 +15,5 @@ class Cons:
     MOVIMIENTO_MAX: int = 3000
     MAX_MOVS: int = 100
 
+    ESTRELLAS_NUM: int = 25
 

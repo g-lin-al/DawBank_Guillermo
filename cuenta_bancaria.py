@@ -18,7 +18,7 @@ class CuentaBancaria:
     def __str__(self):
         return f"IBAN: {self.IBAN} - Titular: {self.TITULAR} - Saldo: {self.saldo}"
 
-    def comprobar_iban(self, valor):
+    def comprobar_iban(self, valor: str):
         patron = re.compile(r'[A-Z]{2}\d{22}')
         if patron.match(valor):
             return True
@@ -30,7 +30,7 @@ class CuentaBancaria:
         return self.IBAN
 
     @iban.setter
-    def iban(self, nuevo_iban):
+    def iban(self, nuevo_iban: str):
         if self.comprobar_iban(nuevo_iban):
             self.IBAN = nuevo_iban
         else:
@@ -57,6 +57,6 @@ class CuentaBancaria:
         return self._movimientos
 
     @movimientos.setter
-    def movimientos(self, nuevo_movimiento):
+    def movimientos(self, nuevo_movimiento: str):
         self._movimientos.append(nuevo_movimiento)
 
