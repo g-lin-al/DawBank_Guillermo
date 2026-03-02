@@ -24,6 +24,13 @@ class Dawbank: # Contiene función main
         opcion = int(input("Introducir el número de la transacción a realizar: "))
         return opcion
 
+    def imprimir_mov(self):
+        movs: list[str] = self.cuenta.movimientos
+        print("-- LISTA DE MOVIMIENTOS --")
+        for i in movs:
+            print(f"- {i}")
+
+
     def run(self):
         opcion: int = -1
         saldo: float = 0.0
@@ -63,12 +70,13 @@ class Dawbank: # Contiene función main
                 print(f"Se retiraron {cant}€ exitosamente. Nuevo balance: {self.cuenta.get_saldo()}")
                 continue
             if opcion == Cons.OPCION_MOVI:
-                print(self.cuenta.get_movimientos())
+                self.imprimir_mov()
                 continue
             if opcion == Cons.OPCION_SALIR:
                 break
             else:
                 print("--- ERROR --- Opción no reflejada. Introducir de nuevo.")
                 continue
+
 
 Dawbank().run()
