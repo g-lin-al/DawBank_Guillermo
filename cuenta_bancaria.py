@@ -1,45 +1,62 @@
 from cons import Cons
+import re
 
 
 class CuentaBancaria:
     IBAN: str = ""
     TITULAR: str = ""
-    saldo: float = 0.0
-    movimientos: list[str] = []
+    _saldo: float = 0.0
+    _movimientos: list[str] = []
+
 
     def __init__(self, iban: str, titular: str):
-        self.IBAN = self.comprobar_iban(iban)
+        self.IBAN = self.iban
         self.TITULAR = titular
-        self.saldo = Cons.SALDO_DEF
-        self.movimientos = []
-
-    def comprobar_iban(self, valor):
-        return valor
+        self._saldo = Cons.SALDO_DEF
+        self._movimientos = []
 
     def __str__(self):
         return f"IBAN: {self.IBAN} - Titular: {self.TITULAR} - Saldo: {self.saldo}"
 
-    def get_iban(self):
+    def comprobar_iban(self, valor):
+        patron = re.compile(r'[A-Z]{2}\d{22}')
+        if patron.match(valor):
+            return True
+        else:
+            return False
+
+    @property
+    def iban(self):
         return self.IBAN
 
-    def set_iban(self, valor: str):
-        self.IBAN = valor
+    @iban.setter
+    def iban(self, nuevo_iban):
+        if self.comprobar_iban(nuevo_iban):
+            self.IBAN = nuevo_iban
+        else:
+            return "Iban no válido."
 
-    def get_titular(self):
+    @property
+    def titular(self):
         return self.TITULAR
 
-    def set_titular(self, valor: str):
-        self.TITULAR = valor
+    @titular.setter
+    def titular(self, nuevo_titular):
+        self.titular = nuevo_titular
 
-    def get_saldo(self):
-        return self.saldo
+    @property
+    def saldo(self):
+        return self._saldo
 
-    def set_saldo(self, valor: float):
-        self.saldo = valor
+    @saldo.setter
+    def saldo(self, nuevo_saldo):
+        self._saldo = nuevo_saldo
 
-    def get_movimientos(self):
-        return self.movimientos
+    @property
+    def movimientos(self):
+        return self._movimientos
 
-    def set_movimientos(self, valor: str):
-        self.movimientos.append(valor)
+    @movimientos.setter
+    def movimientos(self, nuevo_movimiento):
+        self._movimientos.append(nuevo_movimiento)
 

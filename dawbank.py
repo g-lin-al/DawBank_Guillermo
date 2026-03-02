@@ -9,14 +9,14 @@ class Dawbank: # Contiene función main
 
     def imprimir_menu(self) -> None: # Cambiar los números de las opciones a una constante
         print("." * 25)
-        print("1- Mostrar datos de la cuenta.")
-        print("2- Mostrar IBAN.")
-        print("3- Mostrar titular.")
-        print("4- Mostrar saldo.")
-        print("5- Ingreso.")
-        print("6- Retirada.")
-        print("7- Mostrar movimientos.")
-        print("8- SALIR.")
+        print(f"{Cons.OPCION_DATOS}- Mostrar datos de la cuenta.")
+        print(f"{Cons.OPCION_IBAN}- Mostrar IBAN.")
+        print(f"{Cons.OPCION_TITULAR}- Mostrar titular.")
+        print(f"{Cons.OPCION_SALDO}- Mostrar saldo.")
+        print(f"{Cons.OPCION_INGRE}- Ingreso.")
+        print(f"{Cons.OPCION_RETI}- Retirada.")
+        print(f"{Cons.OPCION_MOVI}- Mostrar movimientos.")
+        print(f"{Cons.OPCION_SALIR}- SALIR.")
         print("." * 25)
 
     def pedir_opcion(self) -> int:
@@ -25,17 +25,22 @@ class Dawbank: # Contiene función main
         return opcion
 
     def imprimir_mov(self):
-        movs: list[str] = self.cuenta.movimientos
         print("-- LISTA DE MOVIMIENTOS --")
-        for i in movs:
+        for i in self.cuenta.movimientos:
             print(f"- {i}")
 
     def run(self):
         opcion: int = -1
         saldo: float = 0.0
         cant: float = 0.0
+        iban_manual: str = ""
 
-        self.iban = input("Introducir IBAN bancario: ")
+        iban_manual = input("Introducir IBAN bancario: ")
+        while not self.cuenta.comprobar_iban(iban_manual):
+            iban_manual = input("IBAN incorrecto, introducir de nuevo: ")
+        else:
+            self.iban = iban_manual
+
         self.titular = input("Introducir titular de la cuenta: ")
         self.cuenta = CuentaBancaria(self.iban, self.titular)
 
@@ -46,27 +51,27 @@ class Dawbank: # Contiene función main
                 print(self.cuenta)
                 continue
             if opcion == Cons.OPCION_IBAN:
-                print(f"IBAN: {self.cuenta.get_iban()}")
+                print(f"IBAN: {self.cuenta.iban}")
                 continue
             if opcion == Cons.OPCION_TITULAR:
-                print(f"Titular de la cuenta: {self.cuenta.get_titular()}")
+                print(f"Titular de la cuenta: {self.cuenta.titular}")
                 continue
             if opcion == Cons.OPCION_SALDO:
-                print(f"Saldo disponible: {self.cuenta.get_saldo()}")
+                print(f"Saldo disponible: {self.cuenta.saldo}")
                 continue
             if opcion == Cons.OPCION_INGRE:
                 cant = float(input("Cantidad a introducir: "))
-                saldo = self.cuenta.get_saldo() + cant
-                self.cuenta.set_saldo(saldo)
-                self.cuenta.set_movimientos(f"INGR. +{cant}")
-                print(f"Se introdujeron {cant}€ exitosamente. Nuevo balance: {self.cuenta.get_saldo()}")
+                saldo = self.cuenta.saldo + cant
+                self.cuenta.saldo = saldo
+                self.cuenta.movimientos.append(f"INGR. +{cant}")
+                print(f"Se introdujeron {cant}€ exitosamente. Nuevo balance: {self.cuenta.saldo}")
                 continue
             if opcion == Cons.OPCION_RETI:
                 cant = float(input("Cantidad a retirar: "))
-                saldo = self.cuenta.get_saldo() - cant
-                self.cuenta.set_saldo(saldo)
-                self.cuenta.set_movimientos(f"RETIR. -{cant}")
-                print(f"Se retiraron {cant}€ exitosamente. Nuevo balance: {self.cuenta.get_saldo()}")
+                saldo = self.cuenta.saldo - cant
+                self.cuenta.saldo = saldo
+                self.cuenta.movimientos.append(f"RETIR. -{cant}")
+                print(f"Se retiraron {cant}€ exitosamente. Nuevo balance: {self.cuenta.saldo}")
                 continue
             if opcion == Cons.OPCION_MOVI:
                 self.imprimir_mov()
