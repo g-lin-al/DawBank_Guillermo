@@ -7,7 +7,7 @@ class Dawbank: # Contiene función main
     iban: str = ""
     titular: str = ""
 
-    def imprimir_menu(self) -> None:
+    def imprimir_menu(self) -> None: # Cambiar los números de las opciones a una constante
         print("." * 25)
         print("1- Mostrar datos de la cuenta.")
         print("2- Mostrar IBAN.")
@@ -29,7 +29,6 @@ class Dawbank: # Contiene función main
         print("-- LISTA DE MOVIMIENTOS --")
         for i in movs:
             print(f"- {i}")
-
 
     def run(self):
         opcion: int = -1

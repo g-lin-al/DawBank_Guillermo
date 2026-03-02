@@ -41,6 +41,5 @@ class CuentaBancaria:
         return self.movimientos
 
     def set_movimientos(self, valor: str):
-
         self.movimientos.append(valor)
 
