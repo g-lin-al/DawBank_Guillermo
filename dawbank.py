@@ -80,7 +80,7 @@ class Dawbank:
             elif opcion == Cons.OPCION_TITULAR:
                 print(f"Titular de la cuenta: {self.cuenta.titular}")
             elif opcion == Cons.OPCION_SALDO:
-                print(f"Saldo disponible: {self.cuenta.saldo}")
+                print(f"Saldo disponible: {self.cuenta.saldo}€.")
             elif opcion == Cons.OPCION_INGRE:
                 cant = float(input("Cantidad a introducir: "))
                 self.ingresar_dinero(cant)
