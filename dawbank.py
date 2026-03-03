@@ -7,7 +7,7 @@ class Dawbank:
     titular: str = ""
     cuenta: CuentaBancaria = CuentaBancaria(iban, titular)
 
-    def imprimir_menu(self) -> None: # Cambiar los números de las opciones a una constante
+    def imprimir_menu(self) -> None:
         print("." * Cons.ESTRELLAS_NUM)
         print(f"{Cons.OPCION_DATOS}- Mostrar datos de la cuenta.")
         print(f"{Cons.OPCION_IBAN}- Mostrar IBAN.")
@@ -23,6 +23,26 @@ class Dawbank:
         opcion: int = -1
         opcion = int(input("Introducir el número de la transacción a realizar: "))
         return opcion
+
+    def ingresar_dinero(self, cantidad: float):
+        if cantidad > Cons.MOVIMIENTO_MAX:
+            print("Notificar a Hacienda del movimiento.")
+        saldo = round(self.cuenta.saldo + cantidad, 2)
+        self.cuenta.saldo = saldo
+        self.cuenta.movimientos.append(f"INGR. +{cantidad}")
+        print(f"Se introdujeron {cantidad}€ exitosamente. Nuevo balance: {self.cuenta.saldo}€.")
+
+    def retirar_dinero(self, cantidad: float):
+        if self.cuenta.saldo - cantidad < Cons.MINIMO_SALDO:
+            print(f"No es posible llegar a {Cons.MINIMO_SALDO}€. Saldo actual: {self.cuenta.saldo}€.")
+        else:
+            if cantidad > Cons.MOVIMIENTO_MAX:
+                print("Notificar a Hacienda del movimiento.")
+            saldo = round(self.cuenta.saldo - cantidad, 2)
+            self.cuenta.saldo = saldo
+            self.cuenta.movimientos.append(f"RETIR. -{cantidad}")
+            print(f"Se retiraron {cantidad}€ exitosamente. Nuevo balance: {self.cuenta.saldo}€.")
+            self.avisar_saldo_negativo(self.cuenta.saldo)
 
     def imprimir_mov(self):
         print("-- LISTA DE MOVIMIENTOS --")
@@ -63,24 +83,10 @@ class Dawbank:
                 print(f"Saldo disponible: {self.cuenta.saldo}")
             elif opcion == Cons.OPCION_INGRE:
                 cant = float(input("Cantidad a introducir: "))
-                if cant > Cons.MOVIMIENTO_MAX:
-                    print("Notificar a Hacienda del movimiento.")
-                saldo = round(self.cuenta.saldo + cant, 2)
-                self.cuenta.saldo = saldo
-                self.cuenta.movimientos.append(f"INGR. +{cant}")
-                print(f"Se introdujeron {cant}€ exitosamente. Nuevo balance: {self.cuenta.saldo}€.")
+                self.ingresar_dinero(cant)
             elif opcion == Cons.OPCION_RETI:
                 cant = float(input("Cantidad a retirar: "))
-                if self.cuenta.saldo - cant < Cons.MINIMO_SALDO:
-                    print(f"No es posible llegar a {Cons.MINIMO_SALDO}€. Saldo actual: {self.cuenta.saldo}€.")
-                else:
-                    if cant > Cons.MOVIMIENTO_MAX:
-                        print("Notificar a Hacienda del movimiento.")
-                    saldo = round(self.cuenta.saldo - cant, 2)
-                    self.cuenta.saldo = saldo
-                    self.cuenta.movimientos.append(f"RETIR. -{cant}")
-                    print(f"Se retiraron {cant}€ exitosamente. Nuevo balance: {self.cuenta.saldo}€.")
-                    self.avisar_saldo_negativo(self.cuenta.saldo)
+                self.retirar_dinero(cant)
             elif opcion == Cons.OPCION_MOVI:
                 self.imprimir_mov()
             elif opcion == Cons.OPCION_SALIR:
