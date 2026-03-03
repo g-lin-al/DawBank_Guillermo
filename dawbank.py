@@ -46,6 +46,7 @@ class Dawbank:
             self.iban = iban_manual
 
         self.titular = input("Introducir titular de la cuenta: ")
+
         self.cuenta = CuentaBancaria(self.iban, self.titular)
 
         while opcion != Cons.OPCION_SALIR:
@@ -53,43 +54,38 @@ class Dawbank:
             opcion = self.pedir_opcion()
             if opcion == Cons.OPCION_DATOS:
                 print(self.cuenta)
-                continue
-            if opcion == Cons.OPCION_IBAN:
+            elif opcion == Cons.OPCION_IBAN:
                 print(f"IBAN: {self.cuenta.iban}")
-                continue
-            if opcion == Cons.OPCION_TITULAR:
+            elif opcion == Cons.OPCION_TITULAR:
                 print(f"Titular de la cuenta: {self.cuenta.titular}")
-                continue
-            if opcion == Cons.OPCION_SALDO:
+            elif opcion == Cons.OPCION_SALDO:
                 print(f"Saldo disponible: {self.cuenta.saldo}")
-                continue
-            if opcion == Cons.OPCION_INGRE:
+            elif opcion == Cons.OPCION_INGRE:
                 cant = float(input("Cantidad a introducir: "))
+                if cant > Cons.MOVIMIENTO_MAX:
+                    print("Notificar a Hacienda del movimiento.")
                 saldo = self.cuenta.saldo + cant
                 self.cuenta.saldo = saldo
                 self.cuenta.movimientos.append(f"INGR. +{cant}")
                 print(f"Se introdujeron {cant}€ exitosamente. Nuevo balance: {self.cuenta.saldo}")
-                continue
-            if opcion == Cons.OPCION_RETI:
+            elif opcion == Cons.OPCION_RETI:
                 cant = float(input("Cantidad a retirar: "))
                 if self.cuenta.saldo - cant < Cons.MINIMO_SALDO:
                     print(f"No es posible llegar a {Cons.MINIMO_SALDO}€. Saldo actual: {self.cuenta.saldo}")
                 else:
+                    if cant > Cons.MOVIMIENTO_MAX:
+                        print("Notificar a Hacienda del movimiento.")
                     saldo = self.cuenta.saldo - cant
                     self.cuenta.saldo = saldo
                     self.cuenta.movimientos.append(f"RETIR. -{cant}")
                     print(f"Se retiraron {cant}€ exitosamente. Nuevo balance: {self.cuenta.saldo}")
                     self.avisar_saldo_negativo(self.cuenta.saldo)
-                continue
-            if opcion == Cons.OPCION_MOVI:
+            elif opcion == Cons.OPCION_MOVI:
                 self.imprimir_mov()
-                continue
-            if opcion == Cons.OPCION_SALIR:
+            elif opcion == Cons.OPCION_SALIR:
                 print("-- Finalizando proceso --")
-                break
             else:
                 print("--- ERROR --- Opción no reflejada. Introducir de nuevo.")
-                continue
 
 
 Dawbank().run()
