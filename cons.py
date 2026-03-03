@@ -1,4 +1,5 @@
 class Cons:
+    MINIMO_SALDO = -50
     OPCION_DATOS: int = 1
     OPCION_IBAN: int = 2
     OPCION_TITULAR: int = 3

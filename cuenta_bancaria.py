@@ -31,10 +31,7 @@ class CuentaBancaria:
 
     @iban.setter
     def iban(self, nuevo_iban: str):
-        if self.comprobar_iban(nuevo_iban):
-            self.IBAN = nuevo_iban
-        else:
-            return "Iban no válido."
+        self.IBAN = nuevo_iban
 
     @property
     def titular(self):

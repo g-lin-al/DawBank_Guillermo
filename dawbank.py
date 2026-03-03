@@ -2,10 +2,10 @@ from cons import Cons
 from cuenta_bancaria import CuentaBancaria
 
 
-class Dawbank: # Contiene función main
-    cuenta: CuentaBancaria = CuentaBancaria
+class Dawbank:
     iban: str = ""
     titular: str = ""
+    cuenta: CuentaBancaria = CuentaBancaria(iban, titular)
 
     def imprimir_menu(self) -> None: # Cambiar los números de las opciones a una constante
         print("." * Cons.ESTRELLAS_NUM)
@@ -27,7 +27,11 @@ class Dawbank: # Contiene función main
     def imprimir_mov(self):
         print("-- LISTA DE MOVIMIENTOS --")
         for i in self.cuenta.movimientos:
-            print(f"- {i}")
+            print(f"- {i}€")
+
+    def avisar_saldo_negativo(self, saldo):
+        if saldo < 0:
+            print("AVISO: Saldo negativo.")
 
     def run(self):
         opcion: int = -1
@@ -68,15 +72,20 @@ class Dawbank: # Contiene función main
                 continue
             if opcion == Cons.OPCION_RETI:
                 cant = float(input("Cantidad a retirar: "))
-                saldo = self.cuenta.saldo - cant
-                self.cuenta.saldo = saldo
-                self.cuenta.movimientos.append(f"RETIR. -{cant}")
-                print(f"Se retiraron {cant}€ exitosamente. Nuevo balance: {self.cuenta.saldo}")
+                if self.cuenta.saldo - cant < Cons.MINIMO_SALDO:
+                    print(f"No es posible llegar a {Cons.MINIMO_SALDO}€. Saldo actual: {self.cuenta.saldo}")
+                else:
+                    saldo = self.cuenta.saldo - cant
+                    self.cuenta.saldo = saldo
+                    self.cuenta.movimientos.append(f"RETIR. -{cant}")
+                    print(f"Se retiraron {cant}€ exitosamente. Nuevo balance: {self.cuenta.saldo}")
+                    self.avisar_saldo_negativo(self.cuenta.saldo)
                 continue
             if opcion == Cons.OPCION_MOVI:
                 self.imprimir_mov()
                 continue
             if opcion == Cons.OPCION_SALIR:
+                print("-- Finalizando proceso --")
                 break
             else:
                 print("--- ERROR --- Opción no reflejada. Introducir de nuevo.")
