@@ -10,7 +10,7 @@ class CuentaBancaria:
 
 
     def __init__(self, iban: str, titular: str):
-        self.IBAN = self.iban
+        self.IBAN = iban
         self.TITULAR = titular
         self._saldo = Cons.SALDO_DEF
         self._movimientos = []

@@ -26,8 +26,9 @@ class Dawbank:
 
     def imprimir_mov(self):
         print("-- LISTA DE MOVIMIENTOS --")
-        for i in self.cuenta.movimientos:
-            print(f"- {i}€")
+        for i in range(len(self.cuenta.movimientos)):
+            if i < Cons.MAX_MOVS:
+                print(f"- {self.cuenta.movimientos[i]}€")
 
     def avisar_saldo_negativo(self, saldo):
         if saldo < 0:
@@ -64,21 +65,21 @@ class Dawbank:
                 cant = float(input("Cantidad a introducir: "))
                 if cant > Cons.MOVIMIENTO_MAX:
                     print("Notificar a Hacienda del movimiento.")
-                saldo = self.cuenta.saldo + cant
+                saldo = round(self.cuenta.saldo + cant, 2)
                 self.cuenta.saldo = saldo
                 self.cuenta.movimientos.append(f"INGR. +{cant}")
-                print(f"Se introdujeron {cant}€ exitosamente. Nuevo balance: {self.cuenta.saldo}")
+                print(f"Se introdujeron {cant}€ exitosamente. Nuevo balance: {self.cuenta.saldo}€.")
             elif opcion == Cons.OPCION_RETI:
                 cant = float(input("Cantidad a retirar: "))
                 if self.cuenta.saldo - cant < Cons.MINIMO_SALDO:
-                    print(f"No es posible llegar a {Cons.MINIMO_SALDO}€. Saldo actual: {self.cuenta.saldo}")
+                    print(f"No es posible llegar a {Cons.MINIMO_SALDO}€. Saldo actual: {self.cuenta.saldo}€.")
                 else:
                     if cant > Cons.MOVIMIENTO_MAX:
                         print("Notificar a Hacienda del movimiento.")
-                    saldo = self.cuenta.saldo - cant
+                    saldo = round(self.cuenta.saldo - cant, 2)
                     self.cuenta.saldo = saldo
                     self.cuenta.movimientos.append(f"RETIR. -{cant}")
-                    print(f"Se retiraron {cant}€ exitosamente. Nuevo balance: {self.cuenta.saldo}")
+                    print(f"Se retiraron {cant}€ exitosamente. Nuevo balance: {self.cuenta.saldo}€.")
                     self.avisar_saldo_negativo(self.cuenta.saldo)
             elif opcion == Cons.OPCION_MOVI:
                 self.imprimir_mov()
